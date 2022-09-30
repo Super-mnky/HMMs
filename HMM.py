@@ -1,5 +1,6 @@
 from math import *
 import sys
+import numpy as np
 
 INF = float("inf")
 
@@ -158,22 +159,25 @@ class HMM:
 
         # Add implementation here!
 
-        # ei background probability of each character in the alphabet
-        # em emission probability, one dictionary for each matching state in the model
-        #  t transition probability, one dictionary for each set of states (D,M,I) in the model
+        # relevant data, renamed for ease use
+        '''
+        self.alphabet   # list of characters
+        query           # observations
+        self.eM         # emission probabilities from Match states
+        self.eI         # emission probabilities from Insertion states (j can be 0)
+        self.t          # transition probabilities 
+        nstate          # number of M states
+        '''
+
+        # get things in numpy arrays
+        np_em = np.array(self.eM)
+        np_eI = np.array(self.eI)
+        np_t = np.array(self.t)
 
 
-        #print(self.alphabet)
 
-        #for i in self.t:
-        #    print(i)
 
-        print(self.nstate)
 
-        # print(self.eI)
 
-        #print(self.eM)
-
-        #print(query)
 
         return Vscore, aln
