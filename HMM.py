@@ -155,29 +155,50 @@ class HMM:
         of the query sequence to the profile HMM based on this path 
         """
         Vscore = 0
-        aln = ""
+        aln = "test"
 
         # Add implementation here!
 
-        # relevant data, renamed for ease use
+        # setup
+        hiddenStates = list(self.t[0].keys())
+        observedStates = self.alphabet
+
+        V = [{}]
+        for state in hiddenStates:  # all hidden states
+            V[0][state] = {"prob": 0 * 0, "prev": None}
+
         '''
-        self.alphabet   # list of characters
-        query           # observations
-        self.eM         # emission probabilities from Match states
-        self.eI         # emission probabilities from Insertion states (j can be 0)
-        self.t          # transition probabilities 
-        nstate          # number of M states
+        run viterbi
         '''
+        for t in range(1, len(query)):
+            V.append({})
+            for st in hiddenStates:
+                max_tr_prob = V[t - 1][hiddenStates[0]]["prob"] * self.t[1][st]
+                prev_st_selected = hiddenStates[0]
+                for prev_st in hiddenStates[1:]:
+                    tr_prob = V[t - 1][prev_st]["prob"] * self.t[self.nstate][prev_st]
+                    if tr_prob > max_tr_prob:
+                        max_tr_prob = tr_prob
+                        prev_st_selected = prev_st
 
-        # get things in numpy arrays
-        np_em = np.array(self.eM)
-        np_eI = np.array(self.eI)
-        np_t = np.array(self.t)
+                print(query[t])
+                print(self.t[0][query][t])
+                quit()
 
+                print(emit_p[st][obs[t]])
 
+                quit()
+                max_prob = max_tr_prob * emit_p[st][obs[t]]
+                V[t][st] = {"prob": max_prob, "prev": prev_st_selected}
 
+        '''
+        get most probable state then backtrack
+        '''
+        pass
 
-
-
+        '''
+        follow backtrack to 1st obs
+        '''
+        pass
 
         return Vscore, aln
